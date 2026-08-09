@@ -8,12 +8,12 @@ export default function ConstructionPage() {
         <h1 className="mb-4 text-4xl font-bold md:text-6xl">
           {ref
             ? `${ref} is under construction`
-            : "Default page to show under construction"}
+            : "Under construction"}
         </h1>
         <p className="mb-8 text-xl text-sky-400 md:text-2xl">
           {ref
             ? `${ref} is in development mode and it will be available soon.`
-            : "Default text to show under construction."}
+            : "Project is in development mode and it will be available soon."}
         </p>
         <div className="flex space-x-4">
           <a
