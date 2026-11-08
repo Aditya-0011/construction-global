@@ -15,30 +15,15 @@ registerHooks({
 });
 
 const { default: js } = await import("@eslint/js");
-const { default: reactHooks } = await import("eslint-plugin-react-hooks");
-const { default: reactRefresh } = await import("eslint-plugin-react-refresh");
 const { default: tseslint } = await import("typescript-eslint");
 
 export default defineConfig([
   globalIgnores(["dist"]),
   {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs.flat.recommended,
-      reactRefresh.configs.vite,
-    ],
+    files: ["**/*.ts"],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
     languageOptions: {
       globals: globals.browser,
-    },
-    rules: {
-      "react-refresh/only-export-components": [
-        "warn",
-        {
-          allowConstantExport: true,
-        },
-      ],
     },
   },
 ]);
