@@ -1,18 +1,28 @@
-export default function ConstructionPage() {
-  const queryParams = new URLSearchParams(window.location.search);
-  const ref = queryParams.get("ref");
+const KNOWN_PROJECTS: Record<string, string> = {
+  console: "Console",
+  manager: "Manager",
+  wallet: "Wallet",
+  portfolio: "Portfolio",
+};
 
+function projectFromQuery(): string | null {
+  const ref = new URLSearchParams(window.location.search).get("ref");
+  if (!ref) return null;
+  return KNOWN_PROJECTS[ref.trim().toLowerCase()] ?? null;
+}
+
+const project = projectFromQuery();
+
+export default function ConstructionPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-950 p-4 text-gray-100">
+    <main className="flex min-h-screen items-center justify-center bg-neutral-950 p-4 text-gray-100">
       <div className="w-full max-w-7xl">
         <h1 className="mb-4 text-4xl font-bold md:text-6xl">
-          {ref
-            ? `${ref} is under construction`
-            : "Under construction"}
+          {project ? `${project} is under construction` : "Under construction"}
         </h1>
         <p className="mb-8 text-xl text-sky-400 md:text-2xl">
-          {ref
-            ? `${ref} is in development mode and it will be available soon.`
+          {project
+            ? `${project} is in development mode and it will be available soon.`
             : "Project is in development mode and it will be available soon."}
         </p>
         <div className="flex space-x-4">
@@ -24,6 +34,6 @@ export default function ConstructionPage() {
           </a>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

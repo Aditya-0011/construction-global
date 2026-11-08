@@ -1,14 +1,28 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import { registerHooks } from "node:module";
+import { defineConfig, globalIgnores } from "eslint/config";
+import globals from "globals";
+
+registerHooks({
+  resolve(specifier, context, nextResolve) {
+    if (specifier === "typescript" || specifier.startsWith("typescript/")) {
+      return nextResolve(
+        specifier.replace(/^typescript/, "@typescript/typescript6"),
+        context,
+      );
+    }
+    return nextResolve(specifier, context);
+  },
+});
+
+const { default: js } = await import("@eslint/js");
+const { default: reactHooks } = await import("eslint-plugin-react-hooks");
+const { default: reactRefresh } = await import("eslint-plugin-react-refresh");
+const { default: tseslint } = await import("typescript-eslint");
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(["dist"]),
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
@@ -16,8 +30,15 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     languageOptions: {
-      ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      "react-refresh/only-export-components": [
+        "warn",
+        {
+          allowConstantExport: true,
+        },
+      ],
+    },
   },
-])
+]);
