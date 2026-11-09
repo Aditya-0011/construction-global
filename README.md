@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# Construction page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The placeholder page for platform projects that are not ready yet.
 
-Currently, two official plugins are available:
+[![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## React Compiler
+The construction page is a single static HTML page with no framework. `index.html` holds the markup and `src/main.ts` is the only script. When the URL carries a `?ref=` value naming a known project (`console`, `manager`, `wallet`, or `portfolio`), the script puts that project's name in the heading and description. Otherwise the page keeps its default text.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## Architecture
 
-## Expanding the ESLint configuration
+This section explains the technologies and physical layout of the construction page.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Build**: Compiled using Vite, with TypeScript for the one script
+- **Package manager**: Managed and executed using `bun`
+- **Styling**: Styled with Tailwind CSS v4 through `@tailwindcss/vite`
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Project structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `public/`: Static assets
+- `src/main.ts`: Project name lookup from the `ref` query parameter
+- `src/index.css`: Tailwind entrypoint
+- `index.html`: The page itself
+- `package.json`: Dependencies and scripts
+- `vite.config.ts`: Vite configuration
+- `vercel.json`: Rewrites every non-asset path to `index.html` and sets the security headers
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting started
+
+This section explains how to run the construction page locally. It needs no environment variables.
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) to manage dependencies and run scripts
+
+### Running locally
+
+Install dependencies and start the development server:
+
+```bash
+bun install
+bun run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Build for production
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Compile the page into static HTML, CSS, and JS assets for deployment:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+bun run build
 ```
