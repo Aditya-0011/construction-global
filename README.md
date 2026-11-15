@@ -1,13 +1,18 @@
 # Construction page
 
-The placeholder page for platform projects that are not ready yet.
+The placeholder page for platform projects that are not ready yet or are under maintenance.
 
 [![Vite](https://img.shields.io/badge/Vite-Build-646CFF?style=flat-square&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4.3-38B2AC?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 
 ## Overview
 
-The construction page is a single static HTML page with no framework. `index.html` holds the markup and `src/main.ts` is the only script. When the URL carries a `?ref=` value naming a known project (`console`, `manager`, `wallet`, or `portfolio`), the script puts that project's name in the heading and description. Otherwise the page keeps its default text.
+A single static HTML page with no framework. `src/main.ts` reads two optional query parameters:
+
+| Parameter          | Effect                                                                                                                    |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| `ref`              | Project name shown in the heading, e.g. `?ref=blog`. Letters, digits, spaces, `.`, `_` and `-` only; up to 30 characters. |
+| `maintenance=true` | Shows the maintenance page (amber) instead of the construction page (sky).                                                |
 
 ## Architecture
 
@@ -20,8 +25,8 @@ This section explains the technologies and physical layout of the construction p
 ### Project structure
 
 - `public/`: Static assets
-- `src/main.ts`: Project name lookup from the `ref` query parameter
-- `src/index.css`: Tailwind entrypoint
+- `src/main.ts`: Reads the query parameters
+- `src/index.css`: Tailwind entrypoint, font and accent colours
 - `index.html`: The page itself
 - `package.json`: Dependencies and scripts
 - `vite.config.ts`: Vite configuration

@@ -1,1 +1,15 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: "Inter Variable", sans-serif;
+  --color-accent-400: var(--color-sky-400);
+  --color-accent-500: var(--color-sky-500);
+  --color-accent-600: var(--color-sky-600);
+}
+
+[data-mode="maintenance"] {
+  --color-accent-400: var(--color-amber-400);
+  --color-accent-500: var(--color-amber-500);
+  --color-accent-600: var(--color-amber-600);
+}
